@@ -14,10 +14,12 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell
+        <!-- :article="article 传递给子组件 -->
+        <ArticleItem
           v-for="(article, index) in list"
           :key="index"
           :title="article.title"
+          :article="article"
         />
       </van-list>
     </van-pull-refresh>
@@ -26,6 +28,7 @@
 
 <script>
 import { getArticles } from '@/api/article'
+import ArticleItem from '@/components/article-item'
 export default {
   props: {
     channel: {
@@ -34,6 +37,9 @@ export default {
     }
   },
   name: 'ArticleList',
+  components: {
+    ArticleItem
+  },
   data() {
     return {
       list: [], // 存储列表数据的数据
