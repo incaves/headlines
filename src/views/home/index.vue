@@ -25,29 +25,47 @@
       </van-tab>
       <div slot="nav-right" class="pleacehder"></div>
       <div slot="nav-right" class="hamburger-btn">
-        <i class="kiss kiss-gengduo"></i>
+        <i class="kiss kiss-gengduo" @click="isChennelEditShow = true"></i>
       </div>
     </van-tabs>
     <!-- 频道列表 end -->
+    <!-- 频道编辑弹出层 start-->
+    <van-popup
+      v-model="isChennelEditShow"
+      closeable
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <ChennelEdit
+        :my-channels="channels"
+        :active="active"
+        @update-active="OnUpdataActive"
+      />
+    </van-popup>
+    <!-- 频道编辑弹出层 end -->
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user'
 import ArticleList from './components/article-list.vue'
+import ChennelEdit from './components/chennel-edit.vue'
 export default {
   name: 'HomePage',
   data() {
     return {
       active: 1,
-      channels: []
+      channels: [], // 频道列表
+      isChennelEditShow: false // 控制编辑频道弹出
     }
   },
   created() {
     this.loadChannels()
   },
   components: {
-    ArticleList
+    ArticleList,
+    ChennelEdit
   },
   methods: {
     async loadChannels() {
@@ -57,6 +75,12 @@ export default {
       } catch (err) {
         this.$toast('获取频道数据失败')
       }
+    },
+    // 根据子组件传递过来的索引 修改active的值
+    OnUpdataActive(index, isChennelEditShow = true) {
+      // console.log('home', index)
+      this.active = index
+      this.isChennelEditShow = false
     }
   }
 }

@@ -62,7 +62,7 @@ export default {
           // 用于请求之后的数据的时间戳会在请求结果中返回
           timestamp: this.timestamp || Date.now()
         })
-        console.log(res)
+        // console.log(res)
         // 2.把请求结果放到list数组中
         const { results } = res.data
         // 因为是滑动加载和旧的数组进行合并 而不是覆盖
